@@ -7,9 +7,19 @@
 // consume the function and log the result
 
 
+const compareToTen = (num) => {
+  return new Promise((resolve, reject) => {
+    if(num >= 10) {
+      resolve(num);
+    } else {
+      reject(num);
+    }
+  });
+}
 
+const num = Math.floor(Math.random() * 20 + 1);
 
-
+compareToTen(num).then(function(num) {console.log("Good");}).catch(function(num) {console.log("BAD");});
 
 //2.
 // create a global variable called order. It will hold a string with whatever drink you want to order, say a 'Slurpy'
@@ -28,8 +38,27 @@
 // Server says: "I'll be right back with your Slurpy"
 // Server returns: "Here is your Slurpy".
 
+let order = "Pepsi";
 
+const drink = new Promise(function(resolve, reject) {
+  console.log("Server says:  I'll be right back with your " + order);
+  const orderCannotBeFilled = true;
+  if(orderCannotBeFilled) {
+    setTimeout(function() {
+      console.log("Sorry we are all out of " + order);
+    }, 2000);
+  } else if(!orderCannotBeFilled) {
+    setTimeout(function() {
+      console.log("Here's your " + order);
+    }, 4000);
+  }
+});
 
+drink.then((data) => {
+  console.log(data);
+}).catch(function(error) {
+  console.log(error);
+});
 
 
 //3.CHAIN
@@ -42,6 +71,33 @@
 const arrayOfWords = ['cucumber', 'tomatos', 'avocado'] //returns ['CUCUMBER','TOMATOES','AVOCADO']
 const complicatedArray = ['cucumber', 44, true] //returns "Error Not All Items are strings"
 
+const makeAllCaps = (arr) => {
+  return new Promise((resolve , reject) => {
+    if (arr.map(x => typeof x === 'string').reduce((a,b) => a + b) === arr.length){
+      resolve( arr.map( x => x.toUpperCase()))
+    }
+    else {
+      reject("Error Not All Items are strings")
+    }
+  })
+  }
+  const sortWords = (arr) => {
+  return new Promise((resolve , reject) => {
+    if (arr.map(x => typeof x === 'string').reduce((a,b) => a + b) === arr.length){
+      resolve(arr.sort())
+    }
+    else {
+      reject("Error Not All Items are strings")
+    }
+  })
+  }
+  makeAllCaps(complicatedArray)
+  .then(x => 
+  sortWords(x)
+  .then(x => console.log(x))
+  .catch(x => console.log(x))
+  )
+  .catch(x => console.log(x))
 
 
 
